@@ -18,7 +18,10 @@
   },
   "packageManager": "npm@10.8.3",
   "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+    "apps/*"
+  ],
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "uuid": "^13.0.0"
+  }
 }
