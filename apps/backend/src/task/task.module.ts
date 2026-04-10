@@ -5,10 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './entity/task.entity';
 import { TaskRepository } from './task.repository';
 import { AuthModule } from 'src/auth/auth.module';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   imports: [
     AuthModule,
+    NotificationModule,
     TypeOrmModule.forFeature([Task])  // ✅ ENTITY, bukan repository
   ],
   controllers: [TaskController],

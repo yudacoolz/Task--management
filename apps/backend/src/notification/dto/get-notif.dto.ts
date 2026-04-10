@@ -1,31 +1,29 @@
 
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
-import { TaskStatus } from '../enum/task-status.enum';
 import { MetaDto } from 'src/common/dto/meta.dto.';
-import { Task } from '../entity/task.entity';
+import { Notification } from '../entity/notification.entity';
 import { Type } from 'class-transformer';
+import { NotificationType } from '../enum/notification.enum';
 
-export class GetTasksFilterDto {
+export class GetNotificationilterDto {
     @IsOptional()
-    @IsEnum(TaskStatus)
-    status?: TaskStatus;
+    @IsEnum(NotificationType)
+    type?: NotificationType;
 
     @IsOptional()
     @IsString()
     search?: string;
 
-    // @IsOptional()
     @IsNumber()
     @Type(() => Number)
     page: number;
 
-    // @IsOptional()
     @IsNumber()
     @Type(() => Number)
     limit: number;
 }
 
-export class GetTasksResponseDto {
-    data: Task[];
+export class GetNotificationResponseDto {
+    data: Notification[];
     meta: MetaDto;
 }

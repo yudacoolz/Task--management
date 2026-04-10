@@ -9,13 +9,34 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as NotFoundRouteImport } from './routes/not-found'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthTaskIndexRouteImport } from './routes/auth/task/index'
+import { Route as AuthNotificationIndexRouteImport } from './routes/auth/notification/index'
+import { Route as AuthTaskTaskIdRouteImport } from './routes/auth/task/$taskId'
 
-const TasksRoute = TasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotFoundRoute = NotFoundRouteImport.update({
+  id: '/not-found',
+  path: '/not-found',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -28,44 +49,129 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthTaskIndexRoute = AuthTaskIndexRouteImport.update({
+  id: '/task/',
+  path: '/task/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthNotificationIndexRoute = AuthNotificationIndexRouteImport.update({
+  id: '/notification/',
+  path: '/notification/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthTaskTaskIdRoute = AuthTaskTaskIdRouteImport.update({
+  id: '/task/$taskId',
+  path: '/task/$taskId',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/tasks': typeof TasksRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/not-found': typeof NotFoundRoute
+  '/register': typeof RegisterRoute
+  '/auth/task/$taskId': typeof AuthTaskTaskIdRoute
+  '/auth/notification/': typeof AuthNotificationIndexRoute
+  '/auth/task/': typeof AuthTaskIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/tasks': typeof TasksRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/not-found': typeof NotFoundRoute
+  '/register': typeof RegisterRoute
+  '/auth/task/$taskId': typeof AuthTaskTaskIdRoute
+  '/auth/notification': typeof AuthNotificationIndexRoute
+  '/auth/task': typeof AuthTaskIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/tasks': typeof TasksRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/not-found': typeof NotFoundRoute
+  '/register': typeof RegisterRoute
+  '/auth/task/$taskId': typeof AuthTaskTaskIdRoute
+  '/auth/notification/': typeof AuthNotificationIndexRoute
+  '/auth/task/': typeof AuthTaskIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/tasks'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/login'
+    | '/not-found'
+    | '/register'
+    | '/auth/task/$taskId'
+    | '/auth/notification/'
+    | '/auth/task/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/tasks'
-  id: '__root__' | '/' | '/about' | '/tasks'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/login'
+    | '/not-found'
+    | '/register'
+    | '/auth/task/$taskId'
+    | '/auth/notification'
+    | '/auth/task'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/login'
+    | '/not-found'
+    | '/register'
+    | '/auth/task/$taskId'
+    | '/auth/notification/'
+    | '/auth/task/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  TasksRoute: typeof TasksRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  NotFoundRoute: typeof NotFoundRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/tasks': {
-      id: '/tasks'
-      path: '/tasks'
-      fullPath: '/tasks'
-      preLoaderRoute: typeof TasksRouteImport
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/not-found': {
+      id: '/not-found'
+      path: '/not-found'
+      fullPath: '/not-found'
+      preLoaderRoute: typeof NotFoundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -82,13 +188,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/task/': {
+      id: '/auth/task/'
+      path: '/task'
+      fullPath: '/auth/task/'
+      preLoaderRoute: typeof AuthTaskIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/notification/': {
+      id: '/auth/notification/'
+      path: '/notification'
+      fullPath: '/auth/notification/'
+      preLoaderRoute: typeof AuthNotificationIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/task/$taskId': {
+      id: '/auth/task/$taskId'
+      path: '/task/$taskId'
+      fullPath: '/auth/task/$taskId'
+      preLoaderRoute: typeof AuthTaskTaskIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
+
+interface AuthRouteChildren {
+  AuthTaskTaskIdRoute: typeof AuthTaskTaskIdRoute
+  AuthNotificationIndexRoute: typeof AuthNotificationIndexRoute
+  AuthTaskIndexRoute: typeof AuthTaskIndexRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthTaskTaskIdRoute: AuthTaskTaskIdRoute,
+  AuthNotificationIndexRoute: AuthNotificationIndexRoute,
+  AuthTaskIndexRoute: AuthTaskIndexRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  TasksRoute: TasksRoute,
+  AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
+  NotFoundRoute: NotFoundRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
